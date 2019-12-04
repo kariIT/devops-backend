@@ -1,0 +1,54 @@
+﻿{
+   "ContextClassName": "DtbankdbContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "DoNotCombineNamespace": false,
+   "IdReplace": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "devopsapi",
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Account]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Bank]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Contact]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Customer]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Invoice]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Person]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Phone]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Transaction]"
+      }
+   ],
+   "UseDatabaseNames": true,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseSpatial": false
+}
