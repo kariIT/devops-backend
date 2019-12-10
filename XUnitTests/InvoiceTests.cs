@@ -21,6 +21,8 @@ namespace XUnitTests
             _controller = new InvoiceController(_service);
         }
 
+        // GET
+
         [Fact]
         public void Get_WhenCalled_ReturnsJsonResult()
         {
@@ -41,6 +43,8 @@ namespace XUnitTests
             var items = Assert.IsType<List<Invoice>>(okResult.Value);
             Assert.Equal(3, items.Count);
         }
+
+        // GET BY ID
 
         [Fact]
         public void GetById_UnknownIdPassed_ReturnsNotFoundResult()
@@ -78,6 +82,8 @@ namespace XUnitTests
             Assert.IsType<Invoice>(okResult.Value);
             Assert.Equal(2, (okResult.Value as Invoice).id);
         }
+
+        // CREATE
 
         [Fact]
         public void Add_InvalidObjectPassed_ReturnsBadRequest()
@@ -148,6 +154,8 @@ namespace XUnitTests
             Assert.IsType<Invoice>(item);
             Assert.Equal("5521334", item.Reference);
         }
+
+        // DELETE
 
         [Fact]
         public void Remove_NotExistingIdPassed_ReturnsNotFoundResponse()
