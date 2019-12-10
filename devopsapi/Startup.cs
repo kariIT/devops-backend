@@ -54,6 +54,8 @@ namespace devopsapi
             }
 
             app.UseHttpsRedirection();
+            // conf cors
+            app.UseCors(b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseMvc();
         }
     }
