@@ -22,7 +22,7 @@ namespace devopsapi.Controllers
 
         // GET api/invoices
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<IEnumerable<Invoice>> Get()
         {
             List<Invoice> invoices = _invoiceService.Read();
             return new JsonResult(invoices);
@@ -30,9 +30,15 @@ namespace devopsapi.Controllers
 
         // GET api/invoices/(id)
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<IEnumerable<Invoice>> Get(int id)
         {
             Invoice invoice = _invoiceService.Read(id);
+
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+
             return new JsonResult(invoice);
         }
 
@@ -41,6 +47,12 @@ namespace devopsapi.Controllers
         public IActionResult Create([FromBody] Invoice invoice)
         {
             Invoice createdInvoice = _invoiceService.Create(invoice);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return new JsonResult(createdInvoice);
         }
 
@@ -56,6 +68,13 @@ namespace devopsapi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var existingItem = _invoiceService.Read(id);
+
+            if (existingItem == null)
+            {
+                return NotFound();
+            }
+
             _invoiceService.Delete(id);
             return new OkResult();
         }
