@@ -4,7 +4,7 @@ image: mcr.microsoft.com/dotnet/core/sdk:2.2.301
 variables:
     FTP_HOST: "ftp://waws-prod-db3-127.ftp.azurewebsites.windows.net"
     FTP_USER_YML: $FTP_USERNAME
-    FTP_PASS_YML: $FTP_PASSWORD
+    FTP_PASS_YML: $FTP_PASSWORD_NEW
 
 stages:
     - test
@@ -34,6 +34,7 @@ deploy:
     - echo "Deploying to staging server"
     - dotnet publish --configuration Release
     - apt-get update -qq && apt-get install -y -qq lftp
+    - echo "vars" $FTP_USER_YML $FTP_USERNAME $FTP_PASSWORD $FTP_PASS_YML
     - lftp -e "set ftp:ssl-allow no; open -u $FTP_USER_YML,$FTP_PASS_YML $FTP_HOST; mirror -Rev ./devopsapi/bin/Release/netcoreapp2.2/publish ./site/wwwroot; bye"
   only:
   - master
