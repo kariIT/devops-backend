@@ -61,6 +61,11 @@ namespace devopsapi.Controllers
         public IActionResult Update(int id, [FromBody] Invoice invoice)
         {
             Invoice updatedInvoice = _invoiceService.Update(id, invoice);
+
+            if (updatedInvoice == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return new JsonResult(updatedInvoice);
         }
 

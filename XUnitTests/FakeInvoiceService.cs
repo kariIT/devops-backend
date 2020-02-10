@@ -52,7 +52,15 @@ namespace XUnitTests
 
         public Invoice Update(int id, Invoice invoice)
         {
-            throw new NotImplementedException();
+            var existing = _invoices.First(i => i.id == id);
+            if (existing == null)
+            {
+                throw new Exception(message: "Invoice does not exist.");
+            }
+
+            existing = invoice;
+
+            return existing;
         }
     }
 }

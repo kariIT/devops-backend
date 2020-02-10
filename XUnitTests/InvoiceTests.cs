@@ -196,5 +196,88 @@ namespace XUnitTests
             Assert.Equal(2, _service.Read().Count());
         }
 
+        // UPDATE
+
+        [Fact]
+        public void Update_InvalidObjectPassed_ReturnsBadRequest()
+        {
+            // Arrange
+            var nameMissingItemId = 1;
+            var nameMissingItem = new Invoice()
+            {
+                id = 1,
+                InvoiceSender = "Matti",
+                Reference = "1234567",
+                InvoiceNumber = "INV-100001",
+                BIC = "OKOYFIHH",
+                Total = 10.20M,
+                DueDay = new DateTime(2019, 12, 24),
+                Date = DateTime.Today
+            };
+            _controller.ModelState.AddModelError("RecipientName", "Required");
+
+            // Act
+            var badResponse = _controller.Update(nameMissingItemId, nameMissingItem);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void Update_ValidObjectPassed_ReturnsCreatedResponse()
+        {
+            // Arrange
+            var testInvoiceId = 3;
+            Invoice testInvoice = new Invoice()
+            {
+                id = 3,
+                InvoiceSender = "Vesa",
+                RecipientName = "Elastinen",
+                RecipientIBAN = "FI219255234651",
+                Reference = "5522334",
+                InvoiceNumber = "INV-103003",
+                BIC = "NDEAFIHH",
+                Total = 20.00M,
+                DueDay = new DateTime(2020, 2, 28),
+                Date = DateTime.Today
+            };
+
+            // Act
+            var updatedResponse = _controller.Update(testInvoiceId, testInvoice);
+
+            // Assert
+            Assert.IsType<JsonResult>(updatedResponse);
+        }
+
+        [Fact]
+        public void Update_ValidObjectPassed_ReturnedResponseHasUpdatedItem()
+        {
+            // Arrange
+            var testInvoiceId = 3;
+            var testInvoice = new Invoice()
+            {
+                id = 3,
+                InvoiceSender = "Vesa",
+                RecipientName = "Elastinen",
+                RecipientIBAN = "FI219255234651",
+                Reference = "5521334",
+                InvoiceNumber = "INV-103003",
+                BIC = "NDEAFIHH",
+                Total = 500.00M,
+                DueDay = new DateTime(2020, 2, 28),
+                Date = DateTime.Today
+            };
+
+            // Act
+            var updatedResponse = _controller.Update(testInvoiceId, testInvoice) as JsonResult;
+            var item = updatedResponse.Value as Invoice;
+
+            // Assert
+            Assert.IsType<Invoice>(item);
+            Assert.Equal("Elastinen", item.RecipientName);
+            Assert.Equal("5521334", item.Reference);
+            Assert.Equal(new DateTime(2020, 2, 28), item.DueDay);
+        }
+
     }
 }

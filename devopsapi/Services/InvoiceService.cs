@@ -38,6 +38,12 @@ namespace devopsapi.Services
 
         public Invoice Update(int id, Invoice invoice)
         {
+            Invoice existing = _invoiceRepository.Read(id);
+            if (existing == null)
+            {
+                throw new Exception(message: "Invoice does not exist");
+            }
+
             return _invoiceRepository.Update(invoice);
         }
     }
