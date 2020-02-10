@@ -25,15 +25,6 @@ namespace devopsapi.Models
         public virtual DbSet<Phone> Phone { get; set; }
         public virtual DbSet<Transaction> Transaction { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=digitrade.database.windows.net;Initial Catalog=DTBankDB;Persist Security Info=True;User ID=admin.digitrade;Password=*DTBankDB*");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>(entity =>

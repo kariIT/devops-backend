@@ -328,3 +328,7 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# remove appsettigs to protect keys and such
+devopsapi/appsettigs.json
+devopsapi/appsettigs.Development.json
