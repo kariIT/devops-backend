@@ -1,33 +1,39 @@
+# add dotnet image
+image: mcr.microsoft.com/dotnet/core/sdk:2.2.301
+
+variables:
+    FTP_HOST: "ftp://waws-prod-db3-127.ftp.azurewebsites.windows.net"
+    FTP_USER_YML: $FTP_USERNAME
+    FTP_PASS_YML: $FTP_PASSWORD
+
 stages:
     - test
     - build
     - deploy
     
+
+# RUN TESTS
 test:
     stage: test
-    script: echo "Running tests"
+    script: dotnet test
+    
 
+# BUILD PROJECT
 build:
   stage: build
-  script: echo "Building the app"
+  script: dotnet build --configuration Release
 
-deploy_staging:
+
+# DEPLOY TO AZURE APP SERVICE USING FTP
+# 1. build/publish dotnet project
+# 2. install lftp package
+# 3. push release folder using ftp to azure web application
+deploy:
   stage: deploy
   script:
-    - echo "Deploy to staging server"
-  environment:
-    name: azure
-    url: https://devops-backend.azurewebsites.net
-  only:
-  - master
-
-deploy_prod:
-  stage: deploy
-  script:
-    - echo "Deploy to production server"
-  environment:
-    name: azure
-    url: https://devops-backend.azurewebsites.net
-  when: manual
+    - echo "Deploying to staging server"
+    - dotnet publish --configuration Release
+    - apt-get update -qq && apt-get install -y -qq lftp
+    - lftp -e "set ftp:ssl-allow no; open -u $FTP_USER_YML,$FTP_PASS_YML $FTP_HOST; mirror -Rev ./devopsapi/bin/Release/netcoreapp2.2/publish ./site/wwwroot; bye"
   only:
   - master
