@@ -58,9 +58,10 @@ namespace XUnitTests
                 throw new Exception(message: "Invoice does not exist.");
             }
 
-            existing = invoice;
+            _invoices.Remove(existing);
+            _invoices.Add(invoice);
 
-            return existing;
+            return invoice;
         }
     }
 }
