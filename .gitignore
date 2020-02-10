@@ -330,5 +330,5 @@ ASALocalRun/
 .mfractor/
 
 # remove appsettigs to protect keys and such
-devopsapi/appsettigs.json
-devopsapi/appsettigs.Development.json
+devopsapi/appsettings.json
+devopsapi/appsettings.Development.json
